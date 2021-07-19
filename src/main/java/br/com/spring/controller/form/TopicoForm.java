@@ -3,11 +3,20 @@ package br.com.spring.controller.form;
 import br.com.spring.model.Curso;
 import br.com.spring.model.Topico;
 import br.com.spring.repository.CursoRepository;
-import br.com.spring.repository.TopicoRepository;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class TopicoForm {
+
+    @NotNull @NotEmpty
     private String titulo;
+
+    @NotNull @NotEmpty
     private String mensagem;
+
+    @NotNull @NotEmpty
     private String nomeCurso;
 
     public String getTitulo() {

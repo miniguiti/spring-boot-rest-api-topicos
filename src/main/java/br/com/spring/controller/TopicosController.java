@@ -6,9 +6,13 @@ import br.com.spring.model.Topico;
 import br.com.spring.repository.CursoRepository;
 import br.com.spring.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 
@@ -36,9 +40,13 @@ public class TopicosController {
     }
 
     @PostMapping
-    public void cadastrar(@RequestBody TopicoForm topicoForm){
+    public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm topicoForm,
+                                               UriComponentsBuilder uriComponentsBuilder){
         Topico topico = topicoForm.converter(cursoRepository);
         topicoRepository.save(topico);
+
+        URI uri =  uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 
 }
