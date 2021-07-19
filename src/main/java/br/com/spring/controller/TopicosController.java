@@ -3,6 +3,8 @@ package br.com.spring.controller;
 import br.com.spring.dto.TopicoDto;
 import br.com.spring.model.Curso;
 import br.com.spring.model.Topico;
+import br.com.spring.repository.TopicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,12 +18,13 @@ import java.util.List;
 @Controller
 public class TopicosController {
 
+    @Autowired
+    private TopicoRepository repository;
+
     @RequestMapping("/topicos")
     @ResponseBody
-    public List<TopicoDto> list(){
-         Topico topico = new Topico("Dúvida", "Dúvida com Spring",
-                         new Curso("Spring", "Programação"));
-
-         return TopicoDto.converter(Arrays.asList(topico, topico, topico));
+    public List<TopicoDto> list() {
+        List<Topico> topicos = repository.findAll();
+        return TopicoDto.converter(topicos);
     }
 }
