@@ -114,4 +114,9 @@ public class Topico {
 		this.respostas = respostas;
 	}
 
+	public Topico(String titulo, String mensagem, Curso curso) {
+		this.titulo = titulo;
+		this.mensagem = mensagem;
+		this.curso = curso;
+	}
 }
