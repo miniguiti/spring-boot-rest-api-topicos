@@ -1,6 +1,7 @@
 package br.com.spring.controller;
 
 import br.com.spring.controller.form.TopicoForm;
+import br.com.spring.dto.DetalhesTopicoDto;
 import br.com.spring.dto.TopicoDto;
 import br.com.spring.model.Topico;
 import br.com.spring.repository.CursoRepository;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -49,4 +52,9 @@ public class TopicosController {
         return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 
+    @GetMapping("/{id}")
+    public DetalhesTopicoDto detalhar(@PathVariable Long id){
+        Optional<Topico> topico = topicoRepository.findById(id);
+        return new DetalhesTopicoDto(topico.get());
+    }
 }
