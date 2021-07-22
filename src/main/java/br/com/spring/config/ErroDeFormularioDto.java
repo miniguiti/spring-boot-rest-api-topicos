@@ -1,6 +1,7 @@
 package br.com.spring.config;
 
 public class ErroDeFormularioDto {
+
     private String campo;
     private String messagem;
 

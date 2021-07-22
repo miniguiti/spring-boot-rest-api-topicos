@@ -2,11 +2,7 @@ package br.com.spring.dto;
 
 import br.com.spring.model.Topico;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class TopicoDto {
     private Long id;

@@ -8,9 +8,13 @@ import br.com.spring.model.Topico;
 import br.com.spring.repository.CursoRepository;
 import br.com.spring.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +41,9 @@ public class TopicosController {
 
     @GetMapping
     @ResponseBody
+    @Cacheable(value = "listaDeTopicos")
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
-                                 @RequestParam int pagina, @RequestParam int qtd) {
-
-        Pageable pageable = PageRequest.of(pagina, qtd);
+                                 @PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable pageable) {
 
         if (nomeCurso == null) {
             Page<Topico> topicos = topicoRepository.findAll(pageable);
@@ -52,6 +55,7 @@ public class TopicosController {
     }
 
     @PostMapping
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm topicoForm,
                                                UriComponentsBuilder uriComponentsBuilder) {
         Topico topico = topicoForm.converter(cursoRepository);
@@ -82,6 +86,7 @@ public class TopicosController {
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<?> remover(@PathVariable Long id) {
 
         Optional<Topico> topico = topicoRepository.findById(id);
