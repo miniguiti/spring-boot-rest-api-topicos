@@ -1,4 +1,4 @@
-package br.com.spring.config;
+package br.com.spring.config.validacao;
 
 public class ErroDeFormularioDto {
 
